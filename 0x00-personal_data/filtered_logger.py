@@ -2,11 +2,28 @@
 """
 The filtered logger module
 """
+from os import environ
+from mysql.connector import connection
 import re
 from typing import List
 import logging
 
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
+
+
+def get_db() -> connection.MySQLConnection:
+    """Return a connector to the database"""
+    username = environ.get("PERSONAL_DATA_DB_USERNAME", "root")
+    pwd = environ.get("PERSONAL_DATA_DB_PASSWORD", "")
+    db_host = environ.get("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = environ.get("PERSONAL_DATA_DB_NAME")
+    connector = connection.MySQLConnection(
+        user=username,
+        password=pwd,
+        host=db_host,
+        database=db_name
+    )
+    return connector
 
 
 def filter_datum(fields: List[str],
