@@ -1,2 +1,1 @@
-Personal data
-Authentication, obfuscation, encryption
+Handling user data
