@@ -13,7 +13,7 @@ def filter_datum(fields: List[str],
                  separator: str) -> str:
     """Return log message obfuscated"""
     for field in fields:
-        message = re.sub(f'{field}=(.?){separator}',
+        message = re.sub(f'{field}=(.*?){separator}',
                          f'{field}={redaction}{separator}', message)
     return message
 
