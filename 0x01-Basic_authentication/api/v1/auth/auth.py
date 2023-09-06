@@ -13,10 +13,17 @@ class Auth:
         """Self explanatory"""
         if path is None:
             return True
-        path = path + '/' if path[len(path) - 1] != '/' else path
+        if excluded_paths is None:
+            return True
+        if len(excluded_paths) == 0:
+            return True
+        if path is None or excluded_paths is None:
+            return True
+        path = path + '/' if path[-1] != '/' else path
         if path in excluded_paths:
-            return False      
+            return False
         return True
+
 
     def authorization_header(self, request=None) -> str:
         """Auth headers"""
