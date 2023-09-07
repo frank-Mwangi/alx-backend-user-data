@@ -37,11 +37,11 @@ class BasicAuth(Auth):
                                  str) -> (str, str):
         """Extract credentials from auth header"""
         if decoded_base64_authorization_header is None:
-            return None
+            return (None, None)
         if type(decoded_base64_authorization_header) != str:
-            return None
+            return (None, None)
         if ":" not in decoded_base64_authorization_header:
-            return None
+            return (None, None)
         header = decoded_base64_authorization_header
         email = header.split(":")[0]
         password = header.split(":")[1]
