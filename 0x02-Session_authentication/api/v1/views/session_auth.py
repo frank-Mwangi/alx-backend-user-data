@@ -4,7 +4,7 @@
 Module to handle all routes for session auth
 """
 from api.v1.views import app_views
-from flask import request, jsonify
+from flask import request, jsonify, abort
 from models.user import User
 import os
 
@@ -30,3 +30,15 @@ def login():
         resp = jsonify(user.to_json())
         resp.set_cookie(session_name, session_id)
         return resp
+
+
+@app_views.route('/auth_session/logout',
+                 methods=['DELETE'],
+                 strict_slashes=False)
+def logout():
+    """The logout method"""
+    from api.v1.app import auth
+    logout = auth.destroy_session(request)
+    if logout:
+        return jsonify({}), 200
+    abort(404)
