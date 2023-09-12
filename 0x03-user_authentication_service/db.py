@@ -51,4 +51,4 @@ class DB:
             raise InvalidRequestError
         if user is None:
             raise NoResultFound
-        return user   
+        return user
