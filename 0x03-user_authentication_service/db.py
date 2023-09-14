@@ -46,8 +46,8 @@ class DB:
         search_params = set(kwargs.keys())
         if not kwargs or not search_params.issubset(user_fields):
             raise InvalidRequestError
-        user = self.__session.query(User).filter_by(**kwargs).first()
-        if user is None:
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if not user:
             raise NoResultFound
         return user
 
