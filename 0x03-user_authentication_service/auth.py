@@ -9,6 +9,7 @@ from db import DB
 from user import User
 from typing import TypeVar
 from sqlalchemy.orm.exc import NoResultFound
+import uuid
 
 
 def _hash_password(password: str) -> bytes:
@@ -17,6 +18,11 @@ def _hash_password(password: str) -> bytes:
     salt = bcrypt.gensalt()
     hashed_pwd = bcrypt.hashpw(encoded_pwd, salt)
     return hashed_pwd
+
+
+def _generate_uuid() -> str:
+    """Method to generate random uuid"""
+    return str(uuid.uuid4())
 
 
 class Auth:
