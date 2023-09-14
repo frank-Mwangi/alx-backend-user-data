@@ -19,7 +19,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db")
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -33,22 +33,9 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> TypeVar('User'):
-        """Saves a user to the database"""
-        # new User instance
-        new_user = User(email=email, hashed_password=hashed_password)
-        # add user to session
-        self._session.add(new_user)
-        # commit the session to save user in DB
+    def add_user(self, email: str, hashed_password: str) -> User:
+        """Add user method"""
+        user = User(email=email, hashed_password=hashed_password)
+        self._session.add(user)
         self._session.commit()
-        return new_user
-
-    def find_user_by(self, **kwargs) -> TypeVar('User'):
-        """Find user method"""
-        try:
-            user = self._session.query(User).filter_by(**kwargs).first()
-        except TypeError:
-            raise InvalidRequestError
-        if user is None:
-            raise NoResultFound
         return user
