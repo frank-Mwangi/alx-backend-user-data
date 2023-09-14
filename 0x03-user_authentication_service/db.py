@@ -42,10 +42,11 @@ class DB:
 
     def find_user_by(self, **kwargs) -> TypeVar('User'):
         """Return first row of users table filtered"""
-        try:
-            user = self.__session.query(User).filter_by(**kwargs).first()
-        except TypeError:
+        user_fields = set(User.__dict__.keys())
+        search_params = set(kwargs.keys())
+        if not kwargs or not search_params.issubset(user_fields):
             raise InvalidRequestError
+        user = self.__session.query(User).filter_by(**kwargs).first()
         if user is None:
             raise NoResultFound
         return user
