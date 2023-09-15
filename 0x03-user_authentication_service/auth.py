@@ -85,3 +85,13 @@ class Auth:
             return reset_token
         except NoResultFound:
             raise ValueError(f"User {email} does not exist")
+
+    def update_password(self, reset_token: str, password: str) -> None:
+        """Update password function"""
+        try:
+            user = self._db.find_user_by(reset_token=reset_token)
+        except NoResultFound:
+            raise ValueError
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'))
+        setattr(user, 'hashed_password', hashed_password)
+        setattr(user, 'reset_token', None)
