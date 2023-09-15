@@ -49,7 +49,7 @@ def logout():
     if user:
         user_id = getattr(user, 'id')
         AUTH.destroy_session(user_id)
-        return redirect("/", methods=["GET"])
+        return redirect("/")
     else:
         abort(403)
 
